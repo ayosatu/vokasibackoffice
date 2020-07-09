@@ -1,0 +1,103 @@
+@import url(https://fonts.googleapis.com/css?family=Lato:400, 100, 300);
+
+// variables
+$trans-orange: rgba(245, 132, 33, 0.87);
+$orange: rgb(245, 132, 33);
+$font: Lato;
+
+body {
+  background: $trans-orange;
+  min-height: 100vh;
+  width: auto;
+}
+
+.title h1 {
+  font-size: 3.5em;
+  color: #fff;
+}
+
+.bar {
+  height: 0.25em;
+  width: 100%;
+  background: #fff;
+  margin: 1.5em auto 0;
+}
+
+.main {
+  /*  background: $trans-orange;*/
+  min-height: 50vh;
+  position: relative;
+  top: 20vh;
+}
+
+input[type="text"],
+input[type="password"] {
+  font-size: 1.75em;
+  padding: 0.55em;
+  width: 100%;
+  margin-bottom: 1em;
+  border: none;
+
+  &::placeholder {
+    color: #aaaaaa;
+    position: relative;
+    padding: 0;
+    transition: all 0.5s ease;
+  }
+
+  &:hover::placeholder,
+  &:focus::placeholder {
+    padding-top: 3em;
+  }
+}
+
+.form {
+  h2 {
+    text-align: left;
+    font-weight: 100;
+    color: #fff;
+    margin-bottom: 0.5em;
+  }
+  h4 {
+    font-weight: 100;
+    color: #fff;
+    margin-top: 2em;
+  }
+}
+
+.login {
+  color: rgba(255, 255, 255, 1);
+  width: 6em;
+  font-family: $font;
+  font-weight: 100;
+  font-size: 1.75em;
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  background: transparent;
+  transition: all 200ms ease-in;
+  border-radius: 0.65em;
+
+  &:hover,
+  &:focus {
+    background: #fff;
+    color: $orange;
+    border: none;
+  }
+}
+
+.signup {
+  @extend .login;
+  font-size: 1em;
+  position: relative;
+  left: 1.5em;
+}
+
+// base
+h1,
+h2 h3,
+h4,
+h5,
+h6,
+input {
+  font: $font;
+  font-weight: 100;
+}
