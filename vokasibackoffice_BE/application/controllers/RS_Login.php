@@ -49,8 +49,6 @@ class RS_Login extends REST_Controller {
                         $this->response(['status' => false, 'data' => 'Wrong Password']);
                     }
                 }
-            }else{
-
             }
         }
     }

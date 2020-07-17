@@ -29,7 +29,6 @@ class RS_ins_unit_type extends REST_Controller {
                     var_dump($keword);
                     // die;
                     # since_period...
-                    $this->db->where('ins_unit_type_id',$keword);
                     $this->db->like('upper(code)', strtoupper($keword));
                     $this->db->or_like('upper(description)', strtoupper($keword));
                     $ins_unit_type = $this->db->get('ins_unit_type')->result_array();
