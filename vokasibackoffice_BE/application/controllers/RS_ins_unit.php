@@ -56,92 +56,89 @@ class RS_ins_unit extends REST_Controller {
             } 
             //IN : insert 
             else if($action == 'IN'){
-                $arrdata = ['ins_id' => $this->post('ins_id'),
-                            'ins_unit_type_id' => $this->post('ins_unit_type_id'),
-                            'name' => $this->post('name'),
-                            'since_period' => $this->post('since_period'),
-                            'npwp' => $this->post('npwp'),
-                            'no_permit' => $this->post('no_permit'),
-                            'img_path' => $this->post('img_path'),
-                            'address' => $this->post('address'),
-                            'no_tlp' => $this->post('no_tlp'),
-                            'no_hp' => $this->post('no_hp'),
-                            'email' => $this->post('email'),
-                            'created_date' => 'now()',
-                            'update_date' => 'now()',
-                            'created_by' => 'Admin',
-                            'update_by' => 'Admin'
-                        ];
-                 $this->db->set('ins_unit_id', '(select coalesce(max(ins_unit_id),0) + 1 from ins_unit)', false);
-                $ins_unit = $this->db->insert('ins_unit',$arrdata);
+                $ins_id = $this->post('ins_id');
+                $ins_unit_type_id = $this->post('ins_type_id');
+                $name = $this->post('name');
+                $period = $this->post('since_period');
+                $npwp = $this->post('npwp');
+                $no_permit = $this->post('no_permit');
+                $img_path = $this->post('img_path');
+                $address = $this->post('address');
+                $no_tlp = $this->post('no_tlp');
+                $no_hp = $this->post('no_hp');
+                $email = $this->post('email');
 
-                if($ins_unit){
+                $sql = "select * from f_crud_ins_unit ".
+                        "('I',  NULL ,"."'$name',"."'$period',"."'$f_date',"."'$npwp',"."'$no_permit',".
+                        "'$img_path',"."'$no_tlp',"."'$no_fax',"."'$email',"."'$no_hp',"."'$address',"."'". $_SESSION['user_name']."')";
+               
+                $institution = $this->db->query($sql)->row_array();
+                if($institution){
                     $this->response(['status' => true,
                             'action' => $action,
-                            'data' => 'OK, Data Inserted.'
+                            'data' => $institution['ostr_msg']
                     ], REST_Controller::HTTP_OK );
                 }else{
                     $this->response(['status' => false,
                             'action' => $action,
-                            'data' => 'Bad Request'
+                            'data' => $institution['ostr_msg']
                     ], REST_Controller::HTTP_BAD_REQUEST );
                 }
             }
             else if ($action == 'UP'){
-                $arrdata = ['name' => $this->post('name'),
-                            'img_path' => $this->post('img_path'),
-                            'no_permit' => $this->post('no_permit'),
-                            'no_tlp' => $this->post('no_tlp'),
-                            'no_hp' => $this->post('no_hp'),
-                            'email' => $this->post('email'),
-                            'no_hp' => $this->post('no_hp'),
-                            'address' => $this->post('address'),
-                            'update_date' => 'now()',
-                            'update_by' => 'Admin'
-                ];
-                $ins_unit = $this->db->update('ins_unit',$arrdata,['ins_unit_id' => $this->input->post('ins_unit_id')]);
-                    if($ins_unit){
+                $id = $this->post('ins_id');
+                $name = $this->post('name');
+                $img_path = $this->post('img_path');
+                $no_tlp = $this->post('no_tlp');
+                $no_fax = $this->post('no_fax');
+                $email = $this->post('email');
+                $no_hp = $this->post('no_hp');
+                $address = $this->post('address');
+                
+                $sql = "select * from f_crud_institution ".
+                        "('U',"."$id,"."'$name',"."NULL,NULL,NULL,NULL,".
+                        "'$img_path',"."'$no_tlp',"."'$no_fax',"."'$email',"."'$no_hp',"."'$address',"."'". $_SESSION['user_name']."')";
+
+                $institution = $this->db->query($sql)->row_array();
+                    if($institution){
                         $this->response(['status' => true,
                                 'action' => $action,
-                                'data' => 'OK, Data Updated.'
+                                'data' => $institution['ostr_msg']
                         ], REST_Controller::HTTP_OK );
                     }else{
                         $this->response(['status' => false,
                                 'action' => $action,
-                                'data' => 'Bad Request'
+                                'data' => $institution['ostr_msg']
                         ], REST_Controller::HTTP_BAD_REQUEST );
                     }
                
                 
             } else if($action == 'DL'){
-                // DL : Delete
-                $name = $this->post('name');
-                #var_dump( $id); die;
-                if ($name == '' || $id == '') {
-                    $this->response(['status' => false,
-                    'data' => 'key missed'
-                    ], REST_Controller::HTTP_BAD_REQUEST );
-                } else {
-                    $this->db->where('name', $name);
-                    $ins_unit = $this->db->delete('ins_unit');
-                }
-        
-                if($ins_unit){
+                $id = $this->post('ins_id');
+
+                $sql = "select * from f_crud_institution ".
+                        "('D',"."$id,"."NULL,NULL,NULL,NULL,NULL,".
+                        "NULL,NULL,NULL,NULL,NULL,NULL,NULL)";
+
+                $institution = $this->db->query($sql)->row_array();
+
+                if($institution){
                     $this->response(['status' => true,
                             'data' => 'Data Deleted',
-                            'action' => $action
+                            'action' => $institution['ostr_msg']
                     ], REST_Controller::HTTP_OK );
                 }else{
                     $this->response(['status' => false,
-                    'data' => 'data not found'
+                    'data' => $institution['ostr_msg']
                      ], REST_Controller::HTTP_NOT_FOUND );
                 }    
             }else{
                 $this->response(['status' => false,
                 'data' => 'Bad Request',
-                'action' => $action
+                'action' => 'Not Have Action'
                 ], REST_Controller::HTTP_BAD_REQUEST );
             }
+
 
         }
     }

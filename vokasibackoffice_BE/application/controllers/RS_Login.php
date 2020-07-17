@@ -25,7 +25,7 @@ class RS_Login extends REST_Controller {
                 $users = $this->db->get_where('users',$data)->row_array();
                 
                 if ($users == null) {
-                    $this->response(['status' => false, 'data' => 'Not Found']);
+                    $this->response(['status' => 'Error Code', 'Message' => 'Username Not Found']);
                 }else{
                     // $session_user = ['user_name',$username];
                     // $this->session->set_userdata($session_user);
@@ -41,12 +41,12 @@ class RS_Login extends REST_Controller {
                 ];
                 $user = $this->db->get_where('users',$data)->row_array();
                 if ($user == null) {
-                    $this->response(['status' => false, 'data' => 'Not Found']);
+                    $this->response(['status' => 'Error Code', 'Message' => 'Username Not Found']);
                 }else{
                     if ($password == $user['user_password']) {
-                        $this->response(['status' => true,'data'=> 'success']);
+                        $this->response(['status' => 'Nice','Message'=> 'Succes Login']);
                     }else{
-                        $this->response(['status' => false, 'data' => 'Wrong Password']);
+                        $this->response(['status' => 'Error Code', 'Message' => 'Wrong Password']);
                     }
                 }
             }
