@@ -45,6 +45,7 @@ class RS_Login extends REST_Controller {
                 }else{
                     if ($password == $user['user_password']) {
                         $this->response(['status' => 'Nice','Message'=> 'Succes Login']);
+                        $this->session->set_userdata('user_name',$username);
                     }else{
                         $this->response(['status' => 'Error Code', 'Message' => 'Wrong Password']);
                     }
