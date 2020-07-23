@@ -23,30 +23,37 @@ class RS_school_years extends REST_Controller {
                 $start_period = ($this->post('start_period') == NULL) ? NULL : $this->post('start_period');
                 $user_name = ($this->post('user_name') == NULL) ? NULL : $this->post('user_name');
 
-                $sql = "select * from f_crud_school_years ".
-                        "('" . $action . "',
-                               $sch_years_id,
-                          '" . $code . "',
-                          '" . $description . "',
-                          '" . $end_period . "',
-                               $result_id,
-                          '" . $start_period . "',
-                          '" . $user_name . "'
-                        );";
-               
-                $school_years = $this->db->query($sql)->row_array();
-                if($school_years){
-                    $this->response(['status' => true,
-                            'action' => $action,
-                            'data' => $school_years['ostr_msg']
-                    ], REST_Controller::HTTP_OK );
+
+                if ($action == 'QR') {
+                    $sql = "select * from f_search_majors ('".$keyword."');";
+                    $data = $this->db->query($sql)->row_array();
+                    $this->response(['data' => $data,
+                                     REST_Controller::HTTP_OK ]);
                 }else{
-                    $this->response(['status' => false,
-                            'action' => $action,
-                            'data' => $school_years['ostr_msg']
-                    ], REST_Controller::HTTP_BAD_REQUEST );
+                    $sql = "select * from f_crud_school_years ".
+                            "('" . $action . "',
+                                $sch_years_id,
+                            '" . $code . "',
+                            '" . $description . "',
+                            '" . $end_period . "',
+                                $result_id,
+                            '" . $start_period . "',
+                            '" . $user_name . "'
+                            );";
+                
+                    $school_years = $this->db->query($sql)->row_array();
+                    if($school_years){
+                        $this->response(['status' => true,
+                                'action' => $action,
+                                'data' => $school_years['ostr_msg']
+                        ], REST_Controller::HTTP_OK );
+                    }else{
+                        $this->response(['status' => false,
+                                'action' => $action,
+                                'data' => $school_years['ostr_msg']
+                        ], REST_Controller::HTTP_BAD_REQUEST );
+                    }
                 }
-            
                 
     }
 
