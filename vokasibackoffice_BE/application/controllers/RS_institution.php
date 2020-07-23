@@ -15,6 +15,7 @@ class RS_institution extends REST_Controller {
                 //$user_name=$this->session->userdata('user_name');
 
                 $action = $this->input->post('action', true);
+                $keyword =  $this->input->post('keyword');
                 $ins_id = ($this->post('ins_id') == NULL) ? NULL : $this->post('ins_id');;
                 $name = ($this->post('name') == NULL) ? NULL : $this->post('name');
                 $period = ($this->post('since_period') == NULL) ? NULL : $this->post('since_period');
@@ -30,23 +31,29 @@ class RS_institution extends REST_Controller {
                 $address = ($this->post('address') == NULL) ? NULL : $this->post('address');
                 $user_name = ($this->post('user_name') == NULL) ? NULL : $this->post('user_name');
 
-                $sql = "select * from f_crud_institution ".
+                if ($action == 'QR') {
+                    $sql = "select * from f_search_institution ('".$keyword."');";
+                    $data = $this->db->query($sql)->row_array();
+                    $this->response(['data' => $data,
+                                     REST_Controller::HTTP_OK ]);
+                }else{
+                    $sql = "select * from f_crud_institution ".
                         "('".$action."',  $ins_id ,"."'$name',"."'$period',"."'$f_date',"."'$npwp',"."'$no_permit',".
                         "'$img_path',"."'$no_tlp',"."'$no_fax',"."'$email',"."'$no_hp',"."'$address',"."'". $user_name."')";
                
-                $institution = $this->db->query($sql)->row_array();
-                if($institution){
-                    $this->response(['status' => true,
-                            'action' => $action,
-                            'data' => $institution['ostr_msg']
-                    ], REST_Controller::HTTP_OK );
-                }else{
-                    $this->response(['status' => false,
-                            'action' => $action,
-                            'data' => $institution['ostr_msg']
-                    ], REST_Controller::HTTP_BAD_REQUEST );
+                    $institution = $this->db->query($sql)->row_array();
+                    if($institution){
+                        $this->response(['status' => true,
+                                'action' => $action,
+                                'Message' => $institution['ostr_msg']
+                        ], REST_Controller::HTTP_OK );
+                    }else{
+                        $this->response(['status' => false,
+                                'action' => $action,
+                                'Message' => $institution['ostr_msg']
+                        ], REST_Controller::HTTP_BAD_REQUEST );
+                    }
                 }
-            
                 
     }
 

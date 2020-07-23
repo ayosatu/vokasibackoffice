@@ -15,6 +15,7 @@ class RS_ins_unit extends REST_Controller {
                 //$user_name=$this->session->userdata('user_name');
 
                 $action = $this->input->post('action', true);
+                $keyword =  $this->input->post('keyword');
                 $ins_unit_id = ($this->post('ins_unit_id') == NULL) ? NULL : $this->post('ins_unit_id');
                 $ins_id = ($this->post('ins_id') == NULL) ? NULL : $this->post('ins_id');
                 $ins_unit_type_id = ($this->post('ins_unit_type_id') == NULL) ? NULL : $this->post('ins_unit_type_id');
@@ -30,24 +31,30 @@ class RS_ins_unit extends REST_Controller {
                 $email = ($this->post('email') == NULL) ? NULL : $this->post('email');
                 $user_name = ($this->post('user_name') == NULL) ? NULL : $this->post('user_name');
 
-                $sql = "select * from f_crud_ins_unit ".
+                if ($action == 'QR') {
+                    $sql = "select * from f_search_ins_unit ('".$keyword."');";
+                    $data = $this->db->query($sql)->row_array();
+                    $this->response(['data' => $data,
+                                     REST_Controller::HTTP_OK ]);
+                }else{
+                    $sql = "select * from f_crud_ins_unit ".
                         "('".$action."',  $ins_unit_id ,  $ins_id ,  $ins_unit_type_id ,"."'$name',"."'$period',"."'$npwp',"."'$no_permit',".
                         "'$img_path',"."'$address',"."'$no_tlp',"."'$no_hp',"."'$email',"."'". $user_name."')";
                
-                $ins_unit = $this->db->query($sql)->row_array();
-                if($ins_unit){
-                    $this->response(['status' => true,
-                            'action' => $action,
-                            'data' => $ins_unit['ostr_msg']
-                    ], REST_Controller::HTTP_OK );
-                }else{
-                    $this->response(['status' => false,
-                            'action' => $action,
-                            'data' => $ins_unit['ostr_msg']
-                    ], REST_Controller::HTTP_BAD_REQUEST );
+                    $ins_unit = $this->db->query($sql)->row_array();
+                    if($ins_unit){
+                        $this->response(['status' => true,
+                                'action' => $action,
+                                'data' => $ins_unit['ostr_msg']
+                        ], REST_Controller::HTTP_OK );
+                    }else{
+                        $this->response(['status' => false,
+                                'action' => $action,
+                                'data' => $ins_unit['ostr_msg']
+                        ], REST_Controller::HTTP_BAD_REQUEST );
+                    }
                 }
-            
-                
+    
     }
 
 }
