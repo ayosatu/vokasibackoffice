@@ -36,7 +36,6 @@ class RS_emp_doccument_list extends REST_Controller
             $path = $this->input->post('path');
             $code = $this->input->post('code');
             $description = $this->input->post('description');
-            $created_date = now();
             $adm_user = $this->input->post('admin');
             $emp_id = ($this->input->post('emp_id') == NULL) ? NULL : $this->input->post('emp_id') ;
            
@@ -47,9 +46,6 @@ class RS_emp_doccument_list extends REST_Controller
                     $id,
                     $emp_id,
                     '" . $path . "',
-                    '" . $created_date . "',
-                    '" . $created_date . "',
-                    '" . $adm_user . "',
                     '" . $adm_user . "',
                     '" . $code . "',
                     '" . $description . "'

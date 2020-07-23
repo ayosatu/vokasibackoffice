@@ -48,7 +48,6 @@ class RS_employee extends REST_Controller
             $end_date = $this->input->post('end_date');
             $birth_place = $this->input->post('birth_place');
             $emp_code = $this->input->post('emp_code');
-            $created_date = now();
             $adm_user = $this->input->post('admin');
             $ins_unit_id = ($this->input->post('ins_unit_id') == NULL) ? NULL : $this->input->post('ins_unit_id') ;
             $religion_id = ($this->input->post('religion_id') == NULL) ? NULL : $this->input->post('religion_id') ;
@@ -68,9 +67,6 @@ class RS_employee extends REST_Controller
                     '" . $no_tlp . "',
                     '" . $npwp . "',
                     '" . $is_owner . "',
-                    '" . $created_date . "',
-                    '" . $created_date . "',
-                    '" . $adm_user . "',
                     '" . $adm_user . "',
                     $religion_id,
                     '" . $birth_date . "',

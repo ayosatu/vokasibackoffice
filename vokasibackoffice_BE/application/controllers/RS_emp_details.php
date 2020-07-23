@@ -19,7 +19,6 @@ class RS_emp_details extends REST_Controller
             $id = $this->input->post('emp_details_id');
             $valid_from = $this->input->post('valid_from');
             $valid_until = $this->input->post('valid_until');
-            $created_date = now();
             $adm_user = $this->input->post('admin');
             $position_id = ($this->input->post('position_id') == NULL) ? NULL : $this->input->post('position_id') ;
             $emp_id = ($this->input->post('emp_id') == NULL) ? NULL : $this->input->post('emp_id') ;
@@ -33,9 +32,6 @@ class RS_emp_details extends REST_Controller
                     $emp_id,
                     '" . $valid_from . "',
                     '" . $valid_until . "',
-                    '" . $created_date . "',
-                    '" . $created_date . "',
-                    '" . $adm_user . "',
                     '" . $adm_user . "'
                 ); ";
                 $data = $this->db->query($sql)->row_array();

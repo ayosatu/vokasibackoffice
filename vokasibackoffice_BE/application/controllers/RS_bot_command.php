@@ -22,7 +22,6 @@ class RS_bot_command extends REST_Controller
             $title = $this->input->post('title');
             $is_param = $this->input->post('is_param');
             $store_proc = $this->input->post('store_proc');
-            $created_date = now();
             $adm_user = $this->input->post('admin');
 
                 $sql = " select * from f_crud_bot_command
@@ -34,9 +33,6 @@ class RS_bot_command extends REST_Controller
                     '" . $title . "',
                     '" . $is_param . "',
                     '" . $store_proc . "',
-                    '" . $created_date . "',
-                    '" . $created_date . "',
-                    '" . $adm_user . "',
                     '" . $adm_user . "'
                 ); ";
                 $data = $this->db->query($sql)->row_array();

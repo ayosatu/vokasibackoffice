@@ -19,7 +19,6 @@ class RS_bot_command_user extends REST_Controller
             $id = $this->input->post('bot_com_user_id');
             $valid_from = $this->input->post('valid_from');
             $valid_until = $this->input->post('valid_until');
-            $created_date = now();
             $adm_user = $this->input->post('admin');
             $bot_command_id = ($this->input->post('bot_command_id') == NULL) ? NULL : $this->input->post('candidate_id') ;
             $user_id = ($this->input->post('user_id') == NULL) ? NULL : $this->input->post('user_id') ;
@@ -33,9 +32,6 @@ class RS_bot_command_user extends REST_Controller
                     '" . $user_id . "',
                     '" . $valid_from . "',
                     '" . $valid_until . "',
-                    '" . $created_date . "',
-                    '" . $created_date . "',
-                    '" . $adm_user . "',
                     '" . $adm_user . "'
                 ); ";
                 $data = $this->db->query($sql)->row_array();
